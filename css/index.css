@@ -1,0 +1,20 @@
+table, td, th {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td{
+    max-width: 130px;
+    min-width: 130px; 
+}
+
+tbody{
+    border-collapse: collapse;
+    display: block;
+    height: 40vw;
+    overflow: auto;
+    width: 100%;
+}

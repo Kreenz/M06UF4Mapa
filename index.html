@@ -5,64 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-
+    <h1>Intensidad de la señal en Cataluña</h1>
     <table id="tableContent">
     </table>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./js/index.js"></script>
-    <script>
-        
-        let json = localStorage.getItem("mapa");
-        let headerContainer = "";
-        json = JSON.parse(json);
-        for(let i = 0; i < json.length; i++){
-            console.log(json[i]);
-            if(i == 0){
-               headerContainer = document.createElement("tr");
-            }
-            let bodyContainer = document.createElement("tr");
-            Object.keys(json[i]).forEach(function(key) {
-                if(i == 0){
-                    let headerText = document.createElement("th");
-                    headerText.innerText = key;
-                    headerContainer.appendChild(headerText);
-                    
-                }
-
-                let bodyText = document.createElement("td");
-                bodyText.innerText = json[i][key];
-                bodyContainer.append(bodyText);
-                //console.log('Key : ' + key + ', Value : ' + json[i][key])
-            })
-            if(i == 0){
-                document.getElementById("tableContent").appendChild(headerContainer);
-            }
-            document.getElementById("tableContent").appendChild(bodyContainer);
-        }
-        
-        /*for(let i = 0; i < json.length; i++){
-            //console.log(json[i]);
-            //let cosas = Object.keys(json[i]);
-        }*/
-        
-        /*
-        $.ajax({
-            url: "https://analisi.transparenciacatalunya.cat/resource/g9ma-vbt8.json",
-            type: "GET",
-            data: {
-            "$limit" : 1000,
-            "$$app_token" : "OTx45OGMJSTS2jNTW5cphbI7T"
-            }
-        }).done(function(data) {
-            alert("Retrieved " + data.length + " records from the dataset!");
-            let json = data;
-            localStorage.setItem("mapa", JSON.stringify(json));
-            console.log("loaded");
-        });*/
-
-    </script>
 </body>
 </html>
