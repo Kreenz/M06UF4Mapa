@@ -6,9 +6,13 @@ table {
     border-collapse: collapse;
 }
 
+table > * {
+    font-size: 0.9vw;
+}
+
 td{
-    max-width: 130px;
-    min-width: 130px; 
+    max-width: 6.8vw;
+    min-width: 6.8vw; 
 }
 
 tbody{
@@ -17,4 +21,23 @@ tbody{
     height: 40vw;
     overflow: auto;
     width: 100%;
+}
+
+.f-col{
+    display: flex;
+    flex-direction: column;
+}
+
+.f-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.f-cen{
+    align-items: center;
+    justify-content: center;
+}
+
+#menu > button {
+    margin-left: 3vw;
 }
