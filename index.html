@@ -6,14 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
     <div id="menu" class="f-row f-cen">
         <h1>Intensidad de la señal en Cataluña</h1>
-        <button id="recargar">Recargar</button>
+        <button id="recargar">Recargar</button> 
+        <span>Ultima recarga: <span id="lastUpdated"></span></span>
+        <!--<div>
+            <span>MODIFICA EL INTERVAL DE TEMPS</span>
+            <span id="updateTime"></span>
+        </div>-->
     </div>
     <table id="tableContent">
     </table>
+
+    <div id='chart_div'></div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./js/index.js"></script>
