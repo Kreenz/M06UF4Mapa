@@ -76,7 +76,7 @@ function fillBody(json){
         let long = 0;
 
         Object.keys(json[i]).forEach(function(key) {
-            if(key != "downloadspeed" && key != "uploadspeed" && key != "timestamp_" && key != "activitat" && key != "desc_"){
+            if(key != "lat" && key != "long_" && key != "date" && key != "hora_" && key != "timestamp_" && key != "activitat" && key != "desc_" && key != "operador" && key != "status" && key != "satellites"){
                 if(i == 0){
                     let headerText = document.createElement("td");
                     headerText.innerText = key;
@@ -91,7 +91,7 @@ function fillBody(json){
                 if(key == "senyal")data1 = json[i][key];
 
                 let bodyText = document.createElement("td");
-                bodyText.innerText = json[i][key];
+                bodyText.innerText = (json[i][key] != null && json[i][key] != undefined && json[i][key] != "null") ? json[i][key] : "No";
                 bodyContainer.append(bodyText);
             }
         })
