@@ -1,4 +1,26 @@
 
+/* mapa */
+
+var mymap = L.map('mapid').setView([42.00660326596931, 1.616016699655453], 8);
+var colors = {
+    'yoigo':"blue",
+    'orange': 'red',
+    'movistar': 'orange',
+    'vodafone': 'green',
+    'jazztel': 'purple',
+    'at&t': 'lightblue',
+    'simyo 3g': 'pink'
+}
+
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiZm9ybm9zY3VuaW9yaW9sIiwiYSI6ImNrbW5tbnEwbTF3NzAyd2s1Nmxyd2hiZDAifQ.FRjUAR5Ts34nkhVo5v0Iiw'
+}).addTo(mymap);
+
 var json = "";
 if(localStorage.getItem("mapa") == undefined ) reLoad();
 document.getElementById("recargar").addEventListener("click", reLoad );
@@ -6,15 +28,13 @@ if(localStorage.getItem("time") != undefined) {
     $("#lastUpdated").text(new Date(localStorage.getItem("time") * 1000).toString().split("GMT")[0] + " ");
 }
 
-var interval = setInterval(() => {
-    if(localStorage.getItem("mapa") != undefined){
-        json = localStorage.getItem("mapa");
-        json = JSON.parse(json);
-        clearInterval(interval);
+if(localStorage.getItem("mapa") != undefined){
+    json = localStorage.getItem("mapa");
+    json = JSON.parse(json);
 
-        fillBody(json);
-    }
-}, 300);;
+    fillBody(json);
+}
+
 
 function reLoad() {
     console.log(parseInt(new Date().getTime()) - parseInt(localStorage.getItem("time")));
@@ -31,6 +51,7 @@ function reLoad() {
             localStorage.setItem("mapa", JSON.stringify(json));
             localStorage.setItem("time", new Date().getTime());
             $("#lastUpdated").text(new Date().toString());
+            fillBody(json);
         });
     }
 };
@@ -50,29 +71,39 @@ function fillBody(json){
         let newArray = [];
         let header1 = "";
         let data1 = "";
+        let xarxa = "";
+        let lat = 0;
+        let long = 0;
+
         Object.keys(json[i]).forEach(function(key) {
             if(key != "downloadspeed" && key != "uploadspeed" && key != "timestamp_" && key != "activitat" && key != "desc_"){
                 if(i == 0){
                     let headerText = document.createElement("td");
                     headerText.innerText = key;
                     headerContainer.appendChild(headerText);
-                    
                 }
                 
-                if(key == "operador"){
-                    header1 = json[i][key].toLowerCase();
-                }
+                if(key == "xarxa") xarxa = json[i][key];
+                if(key == "lat") lat = json[i][key];
+                if(key == "long_") long = json[i][key];
 
-                if(key == "senyal") {
-                    data1 = json[i][key]
-                }
+                if(key == "xarxa")header1 = json[i][key].toLowerCase();
+                if(key == "senyal")data1 = json[i][key];
 
                 let bodyText = document.createElement("td");
                 bodyText.innerText = json[i][key];
                 bodyContainer.append(bodyText);
-                //console.log('Key : ' + key + ', Value : ' + json[i][key])
             }
         })
+
+        var circle = L.circle([lat, long], {
+            color: colors[xarxa],
+            fillColor: '#f03',
+            fillOpacity: 0.1,
+            radius: data1 * 20
+        }).addTo(mymap);
+
+        circle.bindPopup(xarxa);
 
         newArray = [header1, data1];
         let bool = false;
@@ -106,8 +137,6 @@ function fillBody(json){
 
 /* google chart */
 
-
-
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
 // draws it.
@@ -128,3 +157,4 @@ var options = {'title':'Intensidad de la señal por redes',
 var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 chart.draw(data, options);
 }
+

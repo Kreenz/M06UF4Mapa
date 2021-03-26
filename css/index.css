@@ -41,3 +41,5 @@ tbody{
 #menu > button {
     margin-left: 3vw;
 }
+
+#mapid { height: 500px; max-width: 500px;}
