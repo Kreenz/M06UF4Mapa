@@ -1,3 +1,9 @@
+
+@keyframes sweep {
+    0%    {opacity: 0; margin-left: -10px}
+    100%  {opacity: 1; margin-left: 0px}
+}
+
 html{
     font-family: 'Noto Sans JP', sans-serif;
 }
@@ -11,11 +17,50 @@ body{
     height: 100%;
 }
 
-table, td, th {
-    border: 1px solid black;
+button {
+    border:1px solid white;
+    border-left: 0px;
+    border-right: 0px;
+    color: white;
+    font-size: 1.5vw;
+    font-family: 'Noto Sans JP', sans-serif;
+    background:none;
+    transition: all 0.2s ease-in;
+    cursor: pointer;
+    height: 50px;
+}
+
+button:hover{
+    background-color: white;
+    color: #051e34;
+    font-weight: bold;
+}
+
+thead{
+    background:#36304a;
+    color: white;
+}
+
+th{
+    height: 3.5vw;
+}
+
+tbody > tr {
+    text-align: center;
+    height: 50px;
 }
 
 table {
+    box-shadow: 1px 1px 5px black;
+}
+
+tr:nth-child(even){
+    border-top:1px solid #666;
+    border-bottom: 1px solid #666;
+}
+
+
+table, td, th {
     border-collapse: collapse;
 }
 
@@ -31,9 +76,13 @@ td{
 tbody{
     border-collapse: collapse;
     display: block;
-    height: 40vw;
+    height: 35vw;
     overflow: auto;
     width: 100%;
+}
+
+#header > h1{
+    margin-left: 50px;
 }
 
 #headerMenu {
@@ -42,13 +91,62 @@ tbody{
     margin-bottom: 10px;
 }
 
+
+
 #headerMenu > span{
     font-size: 2vw;
     font-weight: bold;
+    margin-left: 10px;
+}
+
+details{
+    background:#122c44;
+    transition: all 0.2s ease-in;
+}
+
+details:not([open]){
+    height: 35px;
+}
+
+details[open]{
+    height: 320px;
+}
+
+details[open] summary ~ * {
+    animation: sweep .5s ease-in-out;
+}
+  
+details summary::-webkit-details-marker {
+    display:none;
+}
+
+details > span > button {
+    border:1px solid white; 
+    height: 2.5vw;
+    font-size: 1.2vw;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+details > span > span {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom:2px solid #051e34;
+}
+
+input {
+    width: 15vw;
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+i {
+    margin-right: 10px;
 }
 
 #sideMenu{
-    width: 20%;
+    width: 25%;
     height: 100%;
     background: #051e34;
     color:white
@@ -56,16 +154,25 @@ tbody{
 
 #sideMenu > details {
     width: 100%;
-    margin-left: 0.8vw;
+    margin-bottom: 15px;
+}
+
+#sideMenu > details > summary {
+    padding: 0.5vw;
+    padding-left: 2vw;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    cursor: pointer;
+    outline: none;
+}
+
+#sideMenu > details > p {
+    padding: 10px;
 }
 
 #body {
-    width: 80%;
+    width: 75%;
     height: 100%;
-}
-
-#header > h1{
-
 }
 
 #grafica{
@@ -73,7 +180,7 @@ tbody{
     position:absolute;
     bottom: 0;
     right: 0;
-    width: 100%;
+    width: 75%;
     height: 100%;
     background:rgba(0,0,0,0.5);
 }
@@ -83,7 +190,7 @@ tbody{
     position:absolute;
     bottom: 0;
     right: 0;
-    width: 100%;
+    width: 75%;
     height: 100%;
     background:rgba(0,0,0,0.5);
 }
@@ -91,6 +198,11 @@ tbody{
 #tableContainer{
     width: 100%;
     height: auto;
+    
+}
+
+#tableContent{
+    margin-left: 50px;
 }
 
 .f-col{
@@ -116,4 +228,7 @@ tbody{
     margin-left: 3vw;
 }
 
-#mapid { height: 500px; max-width: 500px;}
+#mapid { 
+    height: 100%; 
+    width: 100%;
+}

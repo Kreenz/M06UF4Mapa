@@ -18,16 +18,41 @@
         <div id="headerMenu">
             <span><i class="fas fa-bars"></i>Menu</span>
         </div>
-        <details>
-            <summary><i class="fas fa-chart-area"></i>Grafica</summary>
-            <p>Epcot is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.</p>
+        <details class="item-list">
+            <summary><i class="fas fa-database"></i>Tabla</summary>
+            <span class="f-col f-cen">
+                <span>Introduce los datos que quieras filtrar</span>
+                <input type="number" name="senyal" placeholder="senyal">
+                <input type="number" name="xarxa" placeholder="xarxa">
+                <input type="number" name="speed" placeholder="speed">
+                <input type="number" name="precision1" placeholder="precision1">
+                <button id="filtrarTabla">FILTRAR TABLA</button>
+            </span>
         </details>
-        <details>
+        <details class="item-list">
+            <summary><i class="fas fa-chart-area"></i>Grafica</summary>
+            <span class="f-col f-cen">
+                <span>Introduce los datos que quieras filtrar</span>
+                <input type="number" name="senyal" placeholder="senyal">
+                <input type="number" name="xarxa" placeholder="xarxa">
+                <input type="number" name="speed" placeholder="speed">
+                <input type="number" name="precision1" placeholder="precision1">
+                <button id="mostrarGrafica">MOSTRAR GRAFICA</button>
+            </span>
+        </details>
+        <details class="item-list">
             <summary><i class="far fa-compass"></i>Mapa</summary>
-            <p>Epcot is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.</p>
+            <span class="f-col f-cen">
+                <span>Introduce los datos que quieras filtrar</span>
+                <input type="number" name="municipi" placeholder="municipi">
+                <input type="number" name="provider" placeholder="provider">
+                <input type="number" name="xarxa" placeholder="xarxa">
+                <input type="number" name="senyal" placeholder="senyal">
+                <button id="mostrarMapa">MOSTRAR MAPA</button>
+            </span>
         </details>
 
-        <button id="recargar">Recargar</button> 
+        <button id="recargar">Recargar datos</button> 
         <span>Ultima recarga: <span id="lastUpdated"></span></span>
         <span></span>
     </div>
@@ -35,7 +60,7 @@
         <div id="header">
             <h1>Intensidad de la señal en Cataluña</h1>  
         </div>
-        <div id="tableContainer" class="f-col f-cen">
+        <div id="tableContainer" class="f-row f-start">
             <table id="tableContent">
             </table>                    
         </div>
@@ -48,7 +73,6 @@
 
     <div id="mapa">
         <div id="mapid"></div>
-        
     </div>
 
     
@@ -58,5 +82,6 @@
     crossorigin=""></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./js/index.js"></script>
+    <script src="https://kit.fontawesome.com/0a9ac31294.js" crossorigin="anonymous"></script>
 </body>
 </html>

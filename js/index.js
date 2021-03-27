@@ -1,7 +1,17 @@
 
+
+
 /* mapa */
 
-var mymap = L.map('mapid').setView([42.00660326596931, 1.616016699655453], 8);
+document.getElementById("mostrarMapa").addEventListener("click", () => {
+    changeState("mapa");
+})
+
+document.getElementById("mostrarGrafica").addEventListener("click", () => {
+    changeState("grafica");
+})
+
+var mymap = L.map('mapid').setView([41.390205, 2.154007], 11);
 var colors = {
     'yoigo':"blue",
     'orange': 'red',
@@ -35,6 +45,28 @@ if(localStorage.getItem("mapa") != undefined){
     fillBody(json);
 }
 
+let items = document.getElementsByClassName("item-list");
+for(let i = 0; i < items.length; i++){
+    items[i].addEventListener("click", () => {
+        closeElements(items[i]);
+    })
+}
+
+function closeElements(item){
+    let items = document.getElementsByClassName("item-list");
+    for(let i = 0; i < items.length; i++){
+        if(items[i] != item) items[i].removeAttribute("open");
+    }
+}
+
+function changeState(id){
+    if(document.getElementById(id) != undefined){
+        let text = "";
+        if(document.getElementById(id).style.display == "flex")text = "none"; 
+        else text = "flex";
+        document.getElementById(id).style.display = text;
+    }
+}
 
 function reLoad() {
     console.log(parseInt(new Date().getTime()) - parseInt(localStorage.getItem("time")));
@@ -84,15 +116,17 @@ function fillBody(json){
                 }
                 
                 if(key == "xarxa") xarxa = json[i][key];
-                if(key == "lat") lat = json[i][key];
-                if(key == "long_") long = json[i][key];
-
                 if(key == "xarxa")header1 = json[i][key].toLowerCase();
                 if(key == "senyal")data1 = json[i][key];
 
                 let bodyText = document.createElement("td");
                 bodyText.innerText = (json[i][key] != null && json[i][key] != undefined && json[i][key] != "null") ? json[i][key] : "No";
                 bodyContainer.append(bodyText);
+            }
+
+            if(key == "long_" || key == "lat"){
+                if(key == "lat") lat = json[i][key];
+                if(key == "long_") long = json[i][key];                
             }
         })
 
