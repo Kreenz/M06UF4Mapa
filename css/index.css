@@ -105,11 +105,12 @@ details{
 }
 
 details:not([open]){
-    height: 35px;
+    height: 2.3vw;
+    min-height: 2.3vw;
 }
 
 details[open]{
-    height: 320px;
+    height: 340px;
 }
 
 details[open] summary ~ * {
