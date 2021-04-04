@@ -142,6 +142,16 @@ input {
     margin-bottom: 10px;
 }
 
+select{
+    width: 15vw;
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+select > option{
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
 i {
     margin-right: 10px;
 }
