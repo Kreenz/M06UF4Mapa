@@ -102,7 +102,17 @@ function reLoad() {
             localStorage.setItem("time", new Date().getTime());
             $("#lastUpdated").text(new Date().toString());
             fillBody(json, true, {senyal:"", xarxa:"", speed:""});
+            $("#currentStatus").remove();
         });
+    } else {
+        if(document.getElementById("currentStatus") == undefined){
+            let status = document.createElement("span");
+            status.id = "currentStatus";
+            status.setAttribute("class", "error");
+            status.innerText = "Se puede recargar el json como maximo cada 10m";
+            console.log(status);
+            $("#sideMenu").append(status);
+        }
     }
 };
 
@@ -267,10 +277,9 @@ function drawChart(rows) {
 
 $("#proveedor").change(function(x) {
     mymap.eachLayer((layer) => {
-        if(!layer._map) {
-            console.log(layer);
-            layer.remove();
-        }  
+        if (!!layer.toGeoJSON) {
+            mymap.removeLayer(layer);
+        }
     });
 
     filterProvider(x.target.value);
