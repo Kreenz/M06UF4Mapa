@@ -130,6 +130,8 @@ function fillBody(json){
             }
         })
 
+        $("#mapa").css("display", "none");
+
         var circle = L.circle([lat, long], {
             color: colors[xarxa],
             fillColor: '#f03',
