@@ -11,6 +11,16 @@ document.getElementById("mostrarGrafica").addEventListener("click", () => {
     changeState("grafica");
 })
 
+document.getElementById("filtrarTabla").addEventListener("click", () => {
+    filterTable(
+        {
+            senyal: $("#senyal").val(),
+            xarxa: $("#xarxa").val(),
+            speed: $("#speed").val()
+        }
+    )
+})
+
 var mymap = L.map('mapid').setView([41.390205, 2.154007], 11);
 var colors = {
     'yoigo':"blue",
@@ -82,14 +92,15 @@ function reLoad() {
             localStorage.setItem("mapa", JSON.stringify(json));
             localStorage.setItem("time", new Date().getTime());
             $("#lastUpdated").text(new Date().toString());
-            fillBody(json);
+            fillBody(json, true, {senyal:"", xarxa:"", speed:""});
         });
     }
 };
 
-function fillBody(json){
+function fillBody(json, chart){
     let headerContainer = "";
     let tableBody = document.createElement("tbody");
+    tableBody.setAttribute("id", "bodyContent");
     let tableHead = document.createElement("thead");
     let arrayObj = [];
     let arraySpeed = [];
@@ -125,7 +136,7 @@ function fillBody(json){
                 if(key == "speed")data2 = json[i][key];
 
                 let bodyText = document.createElement("td");
-                bodyText.innerText = (json[i][key] != null && json[i][key] != undefined && json[i][key] != "null") ? json[i][key] : "No";
+                bodyText.innerText = (json[i][key] != null && json[i][key] != undefined && json[i][key] != "null") ? json[i][key] : "Sin valor";
                 bodyContainer.append(bodyText);
             }
 
@@ -150,12 +161,16 @@ function fillBody(json){
         newArraySpeed = [header1, data2, 1]
         newArraySenal = [header1, data1 , 1];
         let bool = false;
-        arrayObj.forEach(element => {
-            if(element[0] == header1) {
-                element[1] = parseInt(element[1]) + parseInt(data1);
+        for(let i = 0; i < arrayObj.length; i++){
+            if(arrayObj[i][0] == header1) {
+                arraySenal[i][1] = parseInt(arraySenal[i][1]) + parseInt(data1);
+                arraySpeed[i][1] = parseInt(arraySpeed[i][1]) + parseInt(data2);
+                arraySenal[i][2] = parseInt(arraySenal[i][2]) + 1;
+                arraySpeed[i][2] = parseInt(arraySpeed[i][2]) + 1; 
+                arrayObj[i][1] = parseInt(arrayObj[i][1]) + parseInt(data1);
                 bool = true;
             }
-        });
+        }
 
         if(!bool) {
             arraySpeed.push(newArraySpeed);
@@ -167,20 +182,35 @@ function fillBody(json){
             tableHead.appendChild(headerContainer);
             $("#tableContent").append(tableHead);
             $("#tableContent").append(tableBody);
-
         }
+
         tableBody.append(bodyContainer);
     }
 
-    console.log(arrayObj);
     resetMapProveedor(arrayObj);
     $("#tableContent").append(tableBody);
     // Load the Visualization API and the corechart package.
+
+    let filtredSenal = [];
+    let filtredSpeed = [];
+    arraySenal.forEach(element => {
+        filtredSenal.push([element[0], parseInt(element[1]) / element[2]]);
+    })
+    arraySpeed.forEach(element => {
+        filtredSpeed.push([element[0], parseInt(element[1]) / element[2]]);
+    })
+
+
     google.charts.load('current', {'packages':['corechart']});
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(function() {
-        drawChart(arrayObj);
+        if(chart){
+            drawChart(filtredSenal);
+        } else {
+            drawChart(filtredSpeed);
+        }
+        
     });
 }
 
@@ -256,5 +286,28 @@ function filterProvider(provider){
     
             circle.bindPopup(xarxa);
         }        
+    }
+}
+
+function filterTable(filters){
+    let tr = document.getElementById("tableContent").getElementsByTagName("tr");
+    let check = true;
+
+    //0 senyal, 1 xarxa, 2 speed
+
+    for(let i = 0; i < tr.length; i++){
+        let td = tr[i].getElementsByTagName("td");
+        if(filters.senyal != "" && filters.senyal != td[0].innerText){
+            check = false;
+        }
+        if(filters.xarxa != "" && filters.xarxa != td[1].innerText){
+            check = false;
+        }
+        if(filters.speed != "" && filters.speed != td[2].innerText){
+            check = false;
+        }
+        if(!check) tr[i].style.display = "none";
+        else tr[i].style.display = "block";
+        check = true;
     }
 }
