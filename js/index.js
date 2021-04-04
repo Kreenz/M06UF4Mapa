@@ -11,14 +11,23 @@ document.getElementById("mostrarGrafica").addEventListener("click", () => {
     changeState("grafica");
 })
 
-document.getElementById("filtrarTabla").addEventListener("click", () => {
+document.getElementById("filtrarTabla").addEventListener("click", (e) => {
     filterTable(
         {
             senyal: $("#senyal").val(),
             xarxa: $("#xarxa").val(),
             speed: $("#speed").val()
-        }
+        },
+        e
     )
+})
+
+document.getElementById("chartSenyal").addEventListener("click", () => {
+    fillBody(json, true);
+})
+
+document.getElementById("chartSpeed").addEventListener("click", () => {
+    fillBody(json, false);
 })
 
 var mymap = L.map('mapid').setView([41.390205, 2.154007], 11);
@@ -52,7 +61,7 @@ if(localStorage.getItem("mapa") != undefined){
     json = localStorage.getItem("mapa");
     json = JSON.parse(json);
 
-    fillBody(json);
+    fillBody(json, true);
 }
 
 let items = document.getElementsByClassName("item-list");
@@ -98,6 +107,10 @@ function reLoad() {
 };
 
 function fillBody(json, chart){
+    
+    //limpiamos tabla
+    $("#tableContent").html("");
+
     let headerContainer = "";
     let tableBody = document.createElement("tbody");
     tableBody.setAttribute("id", "bodyContent");
@@ -289,10 +302,11 @@ function filterProvider(provider){
     }
 }
 
+//filtras la tabla con los filtros y el evento para poner el gif de carga
 function filterTable(filters){
     let tr = document.getElementById("tableContent").getElementsByTagName("tr");
     let check = true;
-
+    
     //0 senyal, 1 xarxa, 2 speed
 
     for(let i = 0; i < tr.length; i++){
